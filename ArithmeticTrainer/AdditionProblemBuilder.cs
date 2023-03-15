@@ -11,9 +11,9 @@ namespace ArithmeticTrainer
 
         private Random _rand;
 
-        public int MaxLHS { get; set; } = 9;
+        public int MaxLHS { get; set; } = 20;
         public int MinLHS { get; set; } = 1;
-        public int MaxRHS { get; set; } = 9;
+        public int MaxRHS { get; set; } = 20;
         public int MinRHS { get; set; } = 1;
 
         public AdditionProblemBuilder() 

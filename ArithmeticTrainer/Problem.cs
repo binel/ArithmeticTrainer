@@ -20,6 +20,19 @@ namespace ArithmeticTrainer
 
         public decimal Solution { get; set; }
         
+        public DateTime AskedAt { get; set; }
+
+        public DateTime AnsweredAt { get; set; }
+
+        public string Answer { get; set; }
+
+        public bool AnsweredCorrectly { get; set; }
+        
+        public TimeSpan GetAnswerDelay()
+        {
+            return AnsweredAt - AskedAt;
+        }
+
         public string GetProblemStatement()
         {
             string opString;

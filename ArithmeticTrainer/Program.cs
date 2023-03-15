@@ -1,4 +1,6 @@
-﻿namespace ArithmeticTrainer
+﻿using System;
+
+namespace ArithmeticTrainer
 {
     internal class Program
     {
@@ -7,14 +9,17 @@
             Console.WriteLine("Arithmetic Trainer. Enter 'Stop' to stop.");
 
             AdditionProblemBuilder builder = new AdditionProblemBuilder();
+            Session session = new Session();
 
             while (true)
             {
                 Problem p = builder.GetNextProblem();
-
+                session.AddProblem(p);
                 Console.Write(p.GetProblemStatement());
+                p.AskedAt = DateTime.UtcNow;
 
                 var solution = Console.ReadLine();
+                p.AnsweredAt = DateTime.UtcNow;            
 
                 if (solution == "Stop")
                 {
@@ -30,14 +35,17 @@
 
                 if (solutionDecimal == p.Solution)
                 {
-                    Console.WriteLine("Correct");
+                    p.AnsweredCorrectly = true;
+                    Console.WriteLine($"Correct. Time: {p.GetAnswerDelay()}");
                 }
-                else {
-                    Console.WriteLine($"Incorrect. Should be {p.Solution}");
+                else 
+                {
+                    p.AnsweredCorrectly = false;
+                    Console.WriteLine($"Incorrect. Should be {p.Solution}. Time: {p.GetAnswerDelay()}");
                 }
             }
 
-            Console.WriteLine("Done");
+            Console.WriteLine($"Total Answered: {session.GetSolvedProblems()}. Correct %: {session.GetCorrectAnswerPercentage()}");
         }
     }
 }
