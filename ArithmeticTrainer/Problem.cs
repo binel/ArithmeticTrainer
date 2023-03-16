@@ -33,28 +33,41 @@ namespace ArithmeticTrainer
             return AnsweredAt - AskedAt;
         }
 
-        public string GetProblemStatement()
+        private string GetOpSymbol(Operation op)
         {
-            string opString;
             switch (Op)
             {
                 case Operation.ADDITION:
-                    opString = ADDITION_SYMBOL;
-                    break;
+                    return ADDITION_SYMBOL;
                 case Operation.SUBTRACTION:
-                    opString = SUBTRACTION_SYMBOL;
-                    break;
+                    return SUBTRACTION_SYMBOL;
                 case Operation.MULTIPLICATION:
-                    opString = MULTIPLICATION_SYMBOL;
-                    break;
+                    return MULTIPLICATION_SYMBOL;
                 case Operation.DIVISION:
-                    opString = DIVISION_SYMBOL;
-                    break;
+                    return DIVISION_SYMBOL;
                 default:
                     throw new ArgumentException($"Unsupported operation: {Op}");
             }
+        }
 
-            return $"{LHS} {opString} {RHS} = ";
+        public string GetProblemStatement()
+        {
+            return $"{LHS} {GetOpSymbol(Op)} {RHS} = ";
+        }
+
+        public string GetAnsweredString()
+        {
+            if (AnsweredCorrectly)
+            {
+                return this.ToString();
+            }
+
+            return $"{LHS} {GetOpSymbol(Op)} {RHS} = {Solution} (You answered: {Answer})";
+        }
+
+        public override string ToString()
+        {
+            return $"{LHS} {GetOpSymbol(Op)} {RHS} = {Solution}";
         }
     }
 }

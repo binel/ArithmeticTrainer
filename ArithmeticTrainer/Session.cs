@@ -15,10 +15,22 @@ namespace ArithmeticTrainer
 
         public int GetSolvedProblems() => _problems.Count;
 
-        public int GetCorrectAnswers() => _problems.FindAll(p => p.AnsweredCorrectly).Count;
+        public int GetCorrectAnswerCount() => _problems.FindAll(p => p.AnsweredCorrectly).Count;
 
-        public int GetIncorrectAnswers() => _problems.FindAll(p => !p.AnsweredCorrectly).Count;
+        public int GetIncorrectAnswerCount() => _problems.FindAll(p => !p.AnsweredCorrectly).Count;
 
-        public double GetCorrectAnswerPercentage() => ((double)GetCorrectAnswers() / (double)GetSolvedProblems()) * 100;
+        public List<Problem> GetIncorrectAnswers() => _problems.FindAll(p => !p.AnsweredCorrectly); 
+
+        public double GetCorrectAnswerPercentage() => ((double)GetCorrectAnswerCount() / (double)GetSolvedProblems()) * 100;
+
+        public TimeSpan GetTotalTime()
+        {
+            TimeSpan totalTime = new TimeSpan();    
+            foreach (Problem p in _problems)
+            {
+                totalTime += p.GetAnswerDelay();
+            }
+            return totalTime;
+        }
     }
 }
