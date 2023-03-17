@@ -10,50 +10,51 @@ namespace ArithmeticTrainer
         {
             Console.WriteLine("Arithmetic Trainer. Enter 'Stop' to stop.");
 
-            AdditionProblemBuilder builder = new AdditionProblemBuilder();
+            BaseProblemBuilder builder;
+            while (true)
+            {
+                Console.WriteLine("Enter '+' for addition, '-' for subtraction");
+                var entry = Console.ReadLine();
+                if (entry == "+")
+                {
+                    builder = new AdditionProblemBuilder();
+                    break;
+                }
+                if (entry == "-")
+                {
+                    builder = new SubtractionProblemBuilder();
+                    break;
+                }
+                else {
+                    Console.WriteLine($"{entry} is not a valid choice");
+                }
+            }
+            
             List<Problem> problems = builder.GetAllProblemsOfType(1, 1);
 
             Random r = new Random();
             problems = problems.OrderBy(p => r.Next()).ToList();
 
-            Session session = new Session();
+            Session session = new Session(problems);
 
             while (true)
             {
-                Problem p = problems[0];
-                problems.RemoveAt(0);
-                session.AddProblem(p);
-                Console.Write(p.GetProblemStatement());
-                p.AskedAt = DateTime.UtcNow;
+                Console.Write(session.GetNextProblemQuestion());
 
                 var solution = Console.ReadLine();
-                p.AnsweredAt = DateTime.UtcNow;
-                p.Answer = solution;
-
                 if (solution == "Stop")
                 {
                     break;
                 }
 
-                bool parseSuccess = decimal.TryParse(solution, out decimal solutionDecimal);
+                bool correct = session.AnswerProblem(solution);
 
-                if (!parseSuccess)
+                if (!correct)
                 {
-                    Console.WriteLine("Answer could not be parsed.");
+                    Console.WriteLine("\tWrong");
                 }
 
-                if (solutionDecimal == p.Solution)
-                {
-                    p.AnsweredCorrectly = true;
-                    Console.WriteLine($"Correct. Time: {p.GetAnswerDelay()}");
-                }
-                else 
-                {
-                    p.AnsweredCorrectly = false;
-                    Console.WriteLine($"Incorrect. Should be {p.Solution}. Time: {p.GetAnswerDelay()}");
-                }
-
-                if (problems.Count == 0)
+                if (!session.HasMoreProblems())
                 {
                     Console.WriteLine("You did all the problems");
                     break;
@@ -62,7 +63,7 @@ namespace ArithmeticTrainer
 
             Console.WriteLine("Results:");
             Console.WriteLine($"\tTotal Answered: {session.GetSolvedProblems()}");
-            Console.WriteLine($"\tCorrect %: {session.GetCorrectAnswerPercentage()} ({session.GetCorrectAnswerCount()} / {session.GetSolvedProblems()}");
+            Console.WriteLine($"\tCorrect %: {session.GetCorrectAnswerPercentage()} ({session.GetCorrectAnswerCount()} / {session.GetSolvedProblems()})");
             Console.WriteLine($"\tTotal Time: {session.GetTotalTime()}");
 
             Console.WriteLine("Incorrect Answers: ");
