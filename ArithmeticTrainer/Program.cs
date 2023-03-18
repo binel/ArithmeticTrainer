@@ -82,6 +82,7 @@ namespace ArithmeticTrainer
                 var solution = Console.ReadLine();
                 if (solution == "Stop")
                 {
+                    session.CloseSession();
                     break;
                 }
 

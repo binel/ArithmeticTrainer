@@ -47,6 +47,13 @@ namespace ArithmeticTrainer
             return _problemPool[0].GetProblemStatement();
         }
 
+        public void CloseSession()
+        {
+            WorkingProblem.AskedAt = DateTime.MinValue;
+            _problemPool.Add(WorkingProblem);
+            _askedProblems.Remove(WorkingProblem);
+        }
+
         public bool AnswerProblem(string solution)
         {
             WorkingProblem.AnsweredAt = DateTime.UtcNow;
