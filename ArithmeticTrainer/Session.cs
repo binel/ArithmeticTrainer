@@ -69,7 +69,9 @@ namespace ArithmeticTrainer
 
         public void AddProblem(Problem p) => _askedProblems.Add(p);
 
-        public int GetSolvedProblems() => _askedProblems.Count;
+        public int GetSolvedProblemCount() => _askedProblems.Count;
+
+        public int GetUnsolvedProblemCount() => _problemPool.Count;
 
         public int GetCorrectAnswerCount() => _askedProblems.FindAll(p => p.AnsweredCorrectly).Count;
 
@@ -77,7 +79,7 @@ namespace ArithmeticTrainer
 
         public List<Problem> GetIncorrectAnswers() => _askedProblems.FindAll(p => !p.AnsweredCorrectly); 
 
-        public double GetCorrectAnswerPercentage() => ((double)GetCorrectAnswerCount() / (double)GetSolvedProblems()) * 100;
+        public double GetCorrectAnswerPercentage() => ((double)GetCorrectAnswerCount() / (double)GetSolvedProblemCount()) * 100;
 
         public TimeSpan GetTotalTime()
         {

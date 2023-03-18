@@ -18,8 +18,10 @@ namespace ArithmeticTrainer
         {
             List<Problem> result = new List<Problem>();
 
-            int lhs = 1;
-            int rhs = 1;
+            int starting_rhs = DigitCounter.GetSmallestIntOfLength(RHS_Size);
+
+            int lhs = DigitCounter.GetSmallestIntOfLength(LHS_Size);
+            int rhs = starting_rhs;
             while (true)
             {
                 while (true)
@@ -43,7 +45,7 @@ namespace ArithmeticTrainer
                         break;
                     }
                 }
-                rhs = 1;
+                rhs = starting_rhs;
                 lhs += 1;
 
                 if (DigitCounter.GetNumDigits(lhs) > LHS_Size)

@@ -30,6 +30,11 @@ namespace ArithmeticTrainer
         
         public TimeSpan GetAnswerDelay()
         {
+            if (AnsweredAt == DateTime.MinValue)
+            {
+                return new TimeSpan(0);
+            }
+            
             return AnsweredAt - AskedAt;
         }
 
