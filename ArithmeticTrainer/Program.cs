@@ -13,7 +13,7 @@ namespace ArithmeticTrainer
             BaseProblemBuilder builder;
             while (true)
             {
-                Console.WriteLine("Enter '+' for addition, '-' for subtraction");
+                Console.WriteLine("Enter '+', '-', '/', or '*'");
                 var entry = Console.ReadLine();
                 if (entry == "+")
                 {
@@ -23,6 +23,16 @@ namespace ArithmeticTrainer
                 if (entry == "-")
                 {
                     builder = new SubtractionProblemBuilder();
+                    break;
+                }
+                if (entry == "/")
+                {
+                    builder = new NoRemainderDivisionProblemBuilder();
+                    break;
+                }
+                if (entry == "*")
+                {
+                    builder = new MultiplicationProblemBuilder();
                     break;
                 }
                 else {

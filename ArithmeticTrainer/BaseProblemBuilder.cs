@@ -12,6 +12,8 @@ namespace ArithmeticTrainer
 
         public abstract Func<int, int, decimal> SolutionMethod { get; }
 
+        public virtual Func<decimal, bool> AcceptableSolutionChecker { get; set; } = (sol) => true;
+
         public List<Problem> GetAllProblemsOfType(int LHS_Size, int RHS_Size)
         {
             List<Problem> result = new List<Problem>();
@@ -22,13 +24,17 @@ namespace ArithmeticTrainer
             {
                 while (true)
                 {
-                    result.Add(new Problem
+                    Problem p = new Problem
                     {
                         LHS = lhs,
                         RHS = rhs,
                         Op = Op,
                         Solution = SolutionMethod(lhs, rhs)
-                    });
+                    };
+
+                    if (AcceptableSolutionChecker(p.Solution)) {
+                        result.Add(p);
+                    }
 
                     rhs += 1;
 
